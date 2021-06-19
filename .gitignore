@@ -4,3 +4,4 @@
 advhash.egg-info
 .coverage
 htmlcov
+.vscode
