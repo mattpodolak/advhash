@@ -1,7 +1,7 @@
 
 class Attack(object):
   """
-    Base class for adversarial attacks on image hashing functions 
+    Base class for adversarial attacks 
   """
 
   def __init__(self, device= 'cuda'):
