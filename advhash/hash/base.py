@@ -2,22 +2,18 @@ import abc
 from collections import OrderedDict
 
 class Hash(object):
-    """
-        Base class for hashing algorithms
+    """Base class for hashing algorithms
+
+    Args:
+        split_point: String. Defines the interior function to use as a split point when calling the hash function.
+        hash_size: Integer between 1 and 16, inclusive. Defines the size of the resulting hash.
+
+    Raises:
+        ValueError: For invalid arguments
     """
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, split_point, hash_size):
-        """Create a new Hash
-
-        Args:
-            split_point: String. Defines the interior function to use as a split point when calling the hash function.
-            hash_size: Integer between 1 and 16, inclusive. Defines the size of the resulting hash.
-
-        Raises:
-            ValueError: For invalid arguments
-
-        """
         self.hash_size=hash_size
         self.split_point=split_point
 
@@ -117,5 +113,5 @@ class Hash(object):
         return self._hash(X, None)
     
     @abc.abstractmethod
-    def _hash(self, X):
+    def _hash(self, X, split_point):
         return X
