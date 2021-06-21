@@ -2,7 +2,7 @@ import advhash.utils.generic as generic
 from advhash.hash.dhash import DHash
 
 
-def test_serialize():
+def test_serialize_object():
     config = {'split_point': 'resize', 'hash_size':8}
     hash_fn = DHash(**config)
     serialized = generic.serialize_object(hash_fn)
@@ -17,7 +17,7 @@ def test_serialize():
 
     assert not errors, "errors occured:\n{}".format("\n".join(errors))
 
-def test_deserialize():
+def test_deserialize_object():
     hash_config = {'split_point': 'resize', 'hash_size':8}
     config = {'class_name': 'dhash', 'config': hash_config}
     all_hashes = {
