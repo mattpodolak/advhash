@@ -6,18 +6,35 @@ def test_serialize():
     config = {'split_point': 'resize', 'hash_size':8}
     hash_fn = DHash(**config)
     serialized = hashes.serialize(hash_fn)
-    errors = []
 
-    for key in config.keys():
-        if(serialized['config'][key] != config[key]):
-            errors.append(f'Expected {key} to be serialized as {config[key]}, instead got {serialized["config"][key]}')
-    
-    if serialized['class_name'] != 'DHash':
-        errors.append(f'Expected class_name to be serialized as DHash, instead got {serialized["class_name"]}')
+    assert serialized['config'] == config
 
-    assert not errors, "errors occured:\n{}".format("\n".join(errors))
+def test_deserialize():
+    config = {'split_point': 'resize', 'hash_size':8}
+    full_config = {'class_name': 'dhash', 'config': config}
+    deserialized = hashes.deserialize(full_config)
+
+    assert isinstance(deserialized, DHash) and deserialized.get_config() == config
 
 def test_get_str():
     dhash_fn = hashes.get('dhash')
 
-    assert type(dhash_fn) == DHash
+    assert isinstance(dhash_fn, DHash)
+
+def test_get_str_config():
+    config = {'split_point': 'resize', 'hash_size':8}
+    dhash_fn = hashes.get('dhash', config)
+
+    assert type(dhash_fn) == DHash and dhash_fn.get_config() == config
+
+def test_get_hash():
+    dhash_fn = hashes.get(DHash())
+
+    assert isinstance(dhash_fn, DHash)
+
+def test_get_config():
+    config = {'split_point': 'resize', 'hash_size':8}
+    hash_fn = DHash(**config)
+    hash_config = hashes.serialize(hash_fn)
+    dhash_fn = hashes.get(hash_config)
+    assert isinstance(dhash_fn, DHash) and dhash_fn.get_config() == hash_config['config']

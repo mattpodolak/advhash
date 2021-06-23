@@ -46,7 +46,7 @@ class DHash(Hash):
         Returns:
             Python dictionary.
         """
-        config = {"name": self._name}
+        config = {}
         config["split_point"] = self.split_point
         config["hash_size"] = self.hash_size
         return config

@@ -28,8 +28,6 @@ def deserialize(config):
 
   Args:
       config: Hash configuration dictionary.
-      custom_objects: Optional dictionary mapping names (strings) to custom
-        objects (classes and functions) to be considered during deserialization.
 
   Returns:
       A Hash instance.
@@ -47,14 +45,15 @@ def deserialize(config):
       module_type='Hash')
 
 
-def get(hash_fn):
+def get(hash_fn, config={}):
   """Retrieves a Hash instance.
 
   Args:
       hash_fn: one of the following
-          - String: name of a hashing function
-          - Dictionary: configuration dictionary
-          - Hash instance: will be returned unchanged
+            - String: name of a hashing function
+            - Dictionary: configuration dictionary
+            - Hash instance: will be returned unchanged
+      config (optional): Dictonary with config when using string for `hash_fn`
 
   Returns:
       A Hash instance.
@@ -67,7 +66,7 @@ def get(hash_fn):
   elif isinstance(hash_fn, dict):
     return deserialize(hash_fn)
   elif isinstance(hash_fn, str):
-    config = {'class_name': str(hash_fn), 'config': {}}
+    config = {'class_name': str(hash_fn), 'config': config}
     return deserialize(config)
   else:
     raise ValueError(

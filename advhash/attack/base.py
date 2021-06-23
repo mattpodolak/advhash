@@ -34,13 +34,13 @@ class Attack(object):
             raise ValueError(f'device should equal cuda or cpu, instead got {device}')
 
         self.metrics = {'distance': [], 'loss': [], 'avg_diff':[]}
-        self.hash = self._get_hash(hash_fn, hash_size, split_point)
+        self.hash = self._get_hash(hash_fn, hash_size=hash_size, split_point=split_point)
 
-    def _get_hash(hash_fn, hash_size, split_point=None):
-        hash_cls = hashes.get(hash_fn)
+    def _get_hash(self, hash_fn, **kwargs):
+        hash_cls = hashes.get(hash_fn, kwargs)
         if(hash_cls is None):
             raise ValueError(f'Failed to initialize hash function for {hash_fn}')
-        return hash_cls(split_point=split_point, hash_size=hash_size)
+        return hash_cls
 
     def _update_metrics(self, **kwargs):
         for metric in kwargs:
@@ -54,8 +54,6 @@ class Attack(object):
         Returns:
             PyTorch tensor with the loss value
         """
-
-        return None
 
     def attack(self, X, Y, epochs=1000, lr=0.005, betas=(0.1, 0.1), target_dist=0, **kwargs):
         """Perform an adversarial collision attack on an image hashing function
