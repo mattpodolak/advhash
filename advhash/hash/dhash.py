@@ -1,5 +1,5 @@
-import torch
 from collections import OrderedDict
+import torch
 from advhash.hash.base import Hash
 from advhash.utils.convert import rgb2luma
 from advhash.utils.resize import lanczos_resize
@@ -46,9 +46,11 @@ class DHash(Hash):
         Returns:
             Python dictionary.
         """
-        config = {}
-        config["split_point"] = self.split_point
-        config["hash_size"] = self.hash_size
+        config = super(DHash, self).get_config()
+        config.update({
+            "split_point": self.split_point,
+            "hash_size": self.hash_size
+        })
         return config
 
     def _hash(self, X, split_point=None):

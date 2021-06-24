@@ -3,7 +3,7 @@ Built-in hashing classes
 """
 
 from advhash.hash import dhash
-from advhash.hash.base import Hash
+from advhash.hash import base
 from advhash.utils.generic import serialize_object
 from advhash.utils.generic import deserialize_object
 
@@ -61,7 +61,7 @@ def get(hash_fn, config={}):
   Raises:
       ValueError: If `hash_fn` cannot be interpreted.
   """
-  if isinstance(hash_fn, Hash):
+  if isinstance(hash_fn, base.Hash):
     return hash_fn
   elif isinstance(hash_fn, dict):
     return deserialize(hash_fn)

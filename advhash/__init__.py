@@ -3,7 +3,7 @@
 # See LICENSE for details.
 
 """
-Adversarial Attacks for Image Hashing
+Adversarial Attacks for Perceptual Hashing Functions
 """
 __version__ = '0.1.0'
 __author__ = 'Matthew Podolak'

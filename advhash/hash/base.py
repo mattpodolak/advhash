@@ -67,7 +67,7 @@ class Hash(object):
             Python dictionary.
         """
 
-        return {}
+        return {"name": self._name, "hash_size": self.hash_size, "split_point": self.split_point}
 
     @classmethod
     def from_config(cls, config):

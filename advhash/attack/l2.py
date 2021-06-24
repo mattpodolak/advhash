@@ -1,6 +1,6 @@
-from advhash.attack.base import Attack
 import os
 import torch
+from advhash.attack.base import Attack
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = "True" # set env variable to deal with matplotlib and torch issue
 
