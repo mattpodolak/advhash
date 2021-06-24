@@ -1,19 +1,24 @@
-from PIL.Image import Image
+from PIL import Image
 import torch
 import numpy as np
 
-def rgb2luma(x):
+def rgb2luma(x, device=None):
     """Convert a tensor from RGB to Luma
 
     Args:
         x: PyTorch tensor with shape (:, :, 3)
+        device (optional): PyTorch device for the tensor - defaults
+        to CPU
     
     Returns:
         PyTorch tensor with shape (:, :, 1)
     """
-    mod = torch.ones(x.shape).cuda()
-    add = torch.zeros(x.shape).cuda()
-    add[:,:,2] = (torch.ones(add[:,:,2].shape).cuda() * 32768) / pow(2, 16)
+    if device is None:
+        device = torch.device('cpu')
+
+    mod = torch.ones(x.shape).to(device)
+    add = torch.zeros(x.shape).to(device)
+    add[:,:,2] = (torch.ones(add[:,:,2].shape).to(device) * 32768) / pow(2, 16)
     mod[:,:,0] = torch.mul(mod[:,:,0],19595)
     mod[:,:,1] = torch.mul(mod[:,:,1],38470) 
     mod[:,:,2] = torch.mul(mod[:,:,2],7471)
