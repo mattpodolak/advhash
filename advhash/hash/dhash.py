@@ -19,14 +19,14 @@ class DHash(Hash):
         ValueError: For invalid arguments
 
     """
-    def __init__(self, split_point=None, hash_size=16):
-        super().__init__(split_point, hash_size)
+    def __init__(self, split_point=None, hash_size=16, device=None):
+        super().__init__(split_point, hash_size, device)
 
     def _horiz_grad(self, X):
         return X[:, 1:] - X[:,:-1]
 
     def _resize(self, X):
-        return lanczos_resize(X, self.hash_size+1, self.hash_size)
+        return lanczos_resize(X, self.hash_size+1, self.hash_size, self.device)
 
     @property
     def interior_functions(self):

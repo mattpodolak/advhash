@@ -1,5 +1,6 @@
 import abc
 from collections import OrderedDict
+import torch
 
 class Hash(object):
     """Base class for hashing algorithms
@@ -7,15 +8,25 @@ class Hash(object):
     Args:
         split_point: String. Defines the interior function to use as a split point when calling the hash function.
         hash_size: Integer between 1 and 16, inclusive. Defines the size of the resulting hash.
+        device (optional): String or torch.device instance. Tensors will be stored on this device.
 
     Raises:
         ValueError: For invalid arguments
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, split_point, hash_size):
+    def __init__(self, split_point, hash_size, device=None):
         self.hash_size=hash_size
         self.split_point=split_point
+        if device is None:
+            self.device = torch.device('cpu')
+        else:
+            if isinstance(device, torch.device):
+                self.device = device
+            elif isinstance(device, str):
+                self.device = torch.device(device)
+            else:
+                raise ValueError('device value is invalid, expected a string or torch.device instance.')
 
     @abc.abstractproperty
     def interior_functions(self):

@@ -13,11 +13,14 @@ def lanczos3(x):
     else:
         return torch.tensor(0.0)
 
-def precompute_coeffs(inSize, outSize):
+def precompute_coeffs(inSize, outSize, device=None):
+    if device is None:
+        device = torch.device('cpu')
+
     filterscale = inSize / outSize
     filterscale = max(1, filterscale)
     support = 3 * filterscale # 3 for lanczos kernel size of 3
-    kk = torch.zeros((outSize, inSize)).cuda()
+    kk = torch.zeros((outSize, inSize)).to(device)
     for i in range(outSize):
         center = (i+0.5)*filterscale
         ss = 1.0 / filterscale
@@ -36,8 +39,8 @@ def resample(imIn, kkx, kky, xsize=17, ysize=16, maxval=255):
         imIn = torch.clip(torch.matmul(kky, imIn), 0, maxval)
     return imIn
 
-def lanczos_resize(X, xsize=17, ysize=16):
+def lanczos_resize(X, xsize=17, ysize=16, device=None):
     im_y, im_x = X.shape
-    kkx = precompute_coeffs(im_x, xsize)
-    kky = precompute_coeffs(im_y, ysize)
+    kkx = precompute_coeffs(im_x, xsize, device)
+    kky = precompute_coeffs(im_y, ysize, device)
     return resample(X, kkx, kky)
