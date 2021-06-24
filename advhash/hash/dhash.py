@@ -29,10 +29,6 @@ class DHash(Hash):
         return lanczos_resize(X, self.hash_size+1, self.hash_size)
 
     @property
-    def _name(self):
-        return 'DHash'
-
-    @property
     def interior_functions(self):
         return OrderedDict({"luma": rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
     

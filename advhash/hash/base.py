@@ -18,10 +18,6 @@ class Hash(object):
         self.split_point=split_point
 
     @abc.abstractproperty
-    def _name(self):
-        return 'Hash'
-
-    @abc.abstractproperty
     def interior_functions(self):
         return OrderedDict()
 
@@ -67,7 +63,7 @@ class Hash(object):
             Python dictionary.
         """
 
-        return {"name": self._name, "hash_size": self.hash_size, "split_point": self.split_point}
+        return {"hash_size": self.hash_size, "split_point": self.split_point}
 
     @classmethod
     def from_config(cls, config):
