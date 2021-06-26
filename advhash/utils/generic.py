@@ -43,7 +43,7 @@ def deserialize_object(identifier, module_objects=None, module_type=None):
             raise ValueError(
                 'Unknown {}: {}. Please ensure this object exists.'
                 .format(module_type, identifier))
-        return obj
+        return obj()
     else:
         raise ValueError('Could not interpret serialized %s: %s' %
                         (module_type, identifier))

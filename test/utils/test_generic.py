@@ -38,3 +38,19 @@ def test_deserialize_object():
         errors.append(f'Expected class_name to be deserialized as DHash, instead got {type(deserialized)}')
 
     assert not errors, "errors occured:\n{}".format("\n".join(errors))
+
+def test_deserialize_object_str():
+    all_hashes = {
+        'dhash': DHash,
+    }
+    deserialized = generic.deserialize_object(
+      'dhash',
+      module_objects=all_hashes,
+      module_type='Hash')
+
+    errors = []
+    
+    if type(deserialized) != DHash:
+        errors.append(f'Expected class_name to be deserialized as DHash, instead got {type(deserialized)}')
+
+    assert not errors, "errors occured:\n{}".format("\n".join(errors))
