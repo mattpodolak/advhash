@@ -28,9 +28,12 @@ class DHash(Hash):
     def _resize(self, X):
         return lanczos_resize(X, self.hash_size+1, self.hash_size, self.device)
 
+    def _rgb2luma(self, X):
+        return rgb2luma(X, self.device)
+
     @property
     def interior_functions(self):
-        return OrderedDict({"luma": rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
+        return OrderedDict({"luma": self._rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
     
     def get_config(self):
         """Returns the config of the Hash instance.
@@ -43,10 +46,6 @@ class DHash(Hash):
             Python dictionary.
         """
         config = super(DHash, self).get_config()
-        config.update({
-            "split_point": self.split_point,
-            "hash_size": self.hash_size
-        })
         return config
 
     def _hash(self, X, split_point=None):

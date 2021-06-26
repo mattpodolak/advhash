@@ -55,6 +55,8 @@ class Hash(object):
         if isinstance(new_split, str):
             if new_split in self.interior_functions.keys():
                 self._split_point = new_split
+            elif new_split == "last":
+                self._split_point = list(self.interior_functions.keys())[-1]
             else:
                 raise ValueError(f'Invalid split point value {new_split}')
         elif new_split is None:
@@ -74,7 +76,7 @@ class Hash(object):
             Python dictionary.
         """
 
-        return {"hash_size": self.hash_size, "split_point": self.split_point}
+        return {"hash_size": self.hash_size, "split_point": self.split_point, "device": self.device}
 
     @classmethod
     def from_config(cls, config):

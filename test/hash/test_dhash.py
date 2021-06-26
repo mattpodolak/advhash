@@ -17,6 +17,11 @@ def test_partial_hash():
     partial_hash = dhash.partial_hash(im_tensor)
     assert partial_hash.numpy().shape == expected_resize.shape
 
+def test_last_hash():
+    dhash = DHash(split_point="last", hash_size=8)
+    partial_hash = dhash.partial_hash(im_tensor)
+    assert partial_hash.numpy().shape == (8, 8)
+
 def test_full_hash():
     expected_hash = np.array(imagehash.dhash(image).hash).astype('float32')
     full_hash = dhash.full_hash(im_tensor)
