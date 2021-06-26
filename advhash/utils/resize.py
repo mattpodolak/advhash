@@ -13,10 +13,7 @@ def lanczos3(x):
     else:
         return torch.tensor(0.0)
 
-def precompute_coeffs(inSize, outSize, device=None):
-    if device is None:
-        device = torch.device('cpu')
-
+def precompute_coeffs(inSize, outSize, device):
     filterscale = inSize / outSize
     filterscale = max(1, filterscale)
     support = 3 * filterscale # 3 for lanczos kernel size of 3
