@@ -3,8 +3,7 @@ import torch
 from advhash import hashes
 from tqdm import trange
 from advhash.utils.constrain import box, box_conv
-from advhash.utils.compare import avg_diff
-from advhash.attack.hinge import hamming_dist
+from advhash.utils.compare import avg_diff, hamming_dist
 
 class Attack(object):
     """Base class for adversarial attacks
@@ -12,29 +11,20 @@ class Attack(object):
     Args:
         hash_fn: String or Hash function. Defines what hashing function to
         perform an attack against.
-        hash_size (optional): Integer. Size of hash created by the hashing function 
-        - default value is 16.
-        split_point (optional): String. Defines what interior function to target as
-        part of the attack - default value is None.
-        device: String. Defines the device to store PyTorch tensors on.
+        kwargs: configuration for hash function
 
     Raises:
         ValueError: For invalid arguments
     """
 
-    def __init__(self, hash_fn, hash_size=16, split_point=None, device= 'cuda'):
-        if device == "cuda":
-            if torch.cuda.is_available():
-                self.device = torch.device('cuda')
-            else:
-                raise ValueError('Cuda is not available on this computer')
-        elif device == 'cpu':
-            self.device = torch.device('cpu')
-        else:
-            raise ValueError(f'device should equal cuda or cpu, instead got {device}')
+    def __init__(self, hash_fn, **kwargs):
+        allowed_args = ("hash_size", "split_point", "device")
+        for kw in kwargs:
+            if kw not in allowed_args:
+                raise ValueError(f"Invalid argument {kw}")
 
         self.metrics = {'distance': [], 'loss': [], 'avg_diff':[]}
-        self.hash = self._get_hash(hash_fn, hash_size=hash_size, split_point=split_point)
+        self.hash = self._get_hash(hash_fn, **kwargs)
 
     def _get_hash(self, hash_fn, **kwargs):
         hash_cls = hashes.get(hash_fn, kwargs)
@@ -73,11 +63,11 @@ class Attack(object):
             ValueError: for invalid arguments
 
         """
-        if type(X) != torch.tensor or type(Y) != torch.tensor:
+        if not isinstance(X, torch.Tensor) or not isinstance(Y, torch.Tensor):
             raise ValueError("Expected torch.tensor for X and Y")
 
-        if X.device != self.device or Y.device != self.device:
-            raise ValueError(f"Expected X and Y to be on {self.device}")
+        X = X.to(self.hash.device)
+        Y = Y.to(self.hash.device)
 
         w = box_conv(X)
         X_orig = box(w)

@@ -1,11 +1,20 @@
-import os
 import torch
 from advhash.attack.base import Attack
 
-os.environ['KMP_DUPLICATE_LIB_OK'] = "True" # set env variable to deal with matplotlib and torch issue
-
 class L2Attack(Attack):
     """Implementation of an L2 norm based attack.
+
+    Args:
+        hash_fn: String or Hash function. Defines what hashing function to
+        perform an attack against.
+        hash_size (optional): Integer. Size of hash created by the hashing function 
+        - default value is 16.
+        split_point (optional): String. Defines what interior function to target as
+        part of the attack - default value is None.
+        device (optional): String. Defines the device to store PyTorch tensors on.
+
+    Raises:
+        ValueError: For invalid arguments
 
     Reference:
         Dolhansky, B., & Canton-Ferrer, C. (2020, November). Adversarial collision attacks 
@@ -28,8 +37,8 @@ class L2Attack(Attack):
         ```
 
     """
-    def __init__(self, hash_fn, split_point, hash_size=16, device='cuda'):
-        super().__init__(hash_fn, hash_size, split_point, device)
+    def __init__(self, hash_fn, **kwargs):
+        super().__init__(hash_fn, **kwargs)
 
     def _loss_fn(self, X_adv, X_orig, Y_img, c=0.001):
         """
