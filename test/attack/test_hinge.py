@@ -27,8 +27,8 @@ def test_init_partial():
 def test_attack_cuda():
     hinge = HingeAttack(hash_fn='dhash', device='cuda')
     target = torch.tensor(np.array(Image.open('../img/forest.jpg')).astype('float32'))
-    target_hash = hinge.hash.full_hash(target)
-    im_hash = hinge.hash.full_hash(im_tensor)
+    target_hash = hinge.hash.full_hash(target).to('cuda')
+    im_hash = hinge.hash.full_hash(im_tensor).to('cuda')
     im_adv = hinge.attack(im_tensor, target, 2)
     
     adv_hash = hinge.hash.full_hash(im_adv)

@@ -36,11 +36,8 @@ def resample(imIn, kkx, kky, xsize=17, ysize=16, maxval=255):
         imIn = torch.clip(torch.matmul(kky, imIn), 0, maxval)
     return imIn
 
-def lanczos_resize(X, xsize=17, ysize=16, device=None):
+def lanczos_resize(X, xsize=17, ysize=16):
     im_y, im_x = X.shape
-    if device is None:
-        device = torch.device('cpu')
-    X = X.to(device)
-    kkx = precompute_coeffs(im_x, xsize, device)
-    kky = precompute_coeffs(im_y, ysize, device)
+    kkx = precompute_coeffs(im_x, xsize, X.device)
+    kky = precompute_coeffs(im_y, ysize, X.device)
     return resample(X, kkx, kky)

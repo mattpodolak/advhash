@@ -26,14 +26,11 @@ class DHash(Hash):
         return X[:, 1:] - X[:,:-1]
 
     def _resize(self, X):
-        return lanczos_resize(X, self.hash_size+1, self.hash_size, self.device)
-
-    def _rgb2luma(self, X):
-        return rgb2luma(X, self.device)
+        return lanczos_resize(X, self.hash_size+1, self.hash_size)
 
     @property
     def interior_functions(self):
-        return OrderedDict({"luma": self._rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
+        return OrderedDict({"luma": rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
     
     def get_config(self):
         """Returns the config of the Hash instance.

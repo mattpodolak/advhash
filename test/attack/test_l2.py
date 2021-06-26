@@ -28,8 +28,8 @@ def test_init_partial():
 def test_attack_cuda():
     l2 = L2Attack(hash_fn='dhash', split_point='resize', device='cuda')
     target = torch.tensor(np.array(Image.open('../img/forest.jpg')).astype('float32'))
-    target_hash = l2.hash.full_hash(target)
-    im_hash = l2.hash.full_hash(im_tensor)
+    target_hash = l2.hash.full_hash(target).to('cuda')
+    im_hash = l2.hash.full_hash(im_tensor).to('cuda')
     im_adv = l2.attack(im_tensor, target, 2)
     
     adv_hash = l2.hash.full_hash(im_adv)
