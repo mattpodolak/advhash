@@ -56,7 +56,7 @@ class Hash(object):
             if new_split in self.interior_functions.keys():
                 self._split_point = new_split
             elif new_split == "last":
-                self._split_point = list(self.interior_functions.keys())[-1]
+                self._split_point = new_split
             else:
                 raise ValueError(f'Invalid split point value {new_split}')
         elif new_split is None:

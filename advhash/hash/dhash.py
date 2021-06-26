@@ -63,6 +63,8 @@ class DHash(Hash):
         """
         for fn_name, fn in self.interior_functions.items():
             X = fn(X)
-            if split_point is not None and split_point == fn_name:
+            if split_point == fn_name:
                 return X
+        if split_point == "last":
+            return X
         return (X > 0).type(torch.float32)
