@@ -30,6 +30,12 @@ class Attack(object):
         hash_cls = hashes.get(hash_fn, kwargs)
         if(hash_cls is None):
             raise ValueError(f'Failed to initialize hash function for {hash_fn}')
+        
+        config = hash_cls.get_config()
+        for key in kwargs:
+            if str(config[key]) != str(kwargs[key]):
+                raise ValueError(f'Expected hash {key}={kwargs[key]}, instead got {config[key]}')
+
         return hash_cls
 
     def _update_metrics(self, **kwargs):
