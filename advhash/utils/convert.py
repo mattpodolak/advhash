@@ -16,6 +16,8 @@ def rgb2luma(x, device=None):
     if device is None:
         device = torch.device('cpu')
 
+    x = x.to(device)
+
     mod = torch.ones(x.shape).to(device)
     add = torch.zeros(x.shape).to(device)
     add[:,:,2] = (torch.ones(add[:,:,2].shape).to(device) * 32768) / pow(2, 16)
