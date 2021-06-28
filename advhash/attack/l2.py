@@ -2,7 +2,7 @@ import torch
 from advhash.attack.base import Attack
 
 class L2Attack(Attack):
-    """Implementation of an L2 norm based attack.
+    """Implementation of an L2 norm based adversarial collision attack.
 
     Args:
         hash_fn: String or Hash function. Defines what hashing function to

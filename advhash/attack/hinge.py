@@ -2,7 +2,7 @@ import torch
 from advhash.attack.base import Attack
 
 class HingeAttack(Attack):
-    """Implementation of a hinge loss based attack.
+    """Implementation of a hinge loss based adversarial collision attack.
 
     Args:
         hash_fn: String or Hash function. Defines what hashing function to
