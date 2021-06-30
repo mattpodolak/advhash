@@ -4,16 +4,18 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
     steps:
-      - checkout  # checkout source code to working directory
+      - checkout
       - run:
-          command: |  # create whl and install dependencies
+          name: install dependencies
+          command: |
             sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install coverage pytest imagehash Pillow
             sudo pip install -r requirements.txt
             sudo pip install .
       - run:
-          command: |  # Run test suite
+          name: run tests
+          command: |
             mkdir test-results
             coverage run --source=. -m pytest --junitxml=test-results/junit.xml
             coverage report
@@ -26,9 +28,16 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
     steps:
-      - checkout  # checkout source code to working directory
+      - checkout
       - run:
-          command: |  # create whl, install twine and publish to Test PyPI
+          name: init .pypirc
+          command: |
+            echo -e "[testpypi]" >> ~/.pypirc
+            echo -e "username = __token__" >> ~/.pypirc
+            echo -e "password = $TEST_PYPI_TOKEN" >> ~/.pypirc
+      - run:
+          name: build and publish to Test PyPi
+          command: |
             sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install twine
@@ -37,9 +46,16 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
     steps:
-      - checkout  # checkout source code to working directory
+      - checkout
       - run:
-          command: |  # create whl, install twine and publish to PyPI
+          name: init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = __token__" >> ~/.pypirc
+            echo -e "password = $PYPI_TOKEN" >> ~/.pypirc
+      - run:
+          name: build and publish to PyPi
+          command: |
             sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install twine
