@@ -22,7 +22,7 @@ def test_lanczos_resize_cpu():
     assert avg_diff < 0.005, f"Avg diff={100*avg_diff:.2f}% not less than 0.5%"
 
 def test_sinc():
-  assert resize.sinc(0) == torch.tensor(1.0), "sinc(0) should return 1.0"
+    assert resize.sinc(0) == torch.tensor(1.0), "sinc(0) should return 1.0"
 
 def test_lanczos3():
-  assert resize.lanczos3(3) == torch.tensor(0.0), "lanczos3(3) should return 0.0"
+    assert resize.lanczos3(3) == torch.tensor(0.0), "lanczos3(3) should return 0.0"

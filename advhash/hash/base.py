@@ -2,18 +2,18 @@ import abc
 from collections import OrderedDict
 import torch
 
-class Hash(object):
+class Hash:
     """Base class for hashing algorithms
 
     Args:
-        split_point: String. Defines the interior function to use as a split point when calling the hash function.
+        split_point: String. Defines the interior function to use as a split point when
+        calling the hash function.
         hash_size: Integer between 1 and 16, inclusive. Defines the size of the resulting hash.
         device (optional): String or torch.device instance. Tensors will be stored on this device.
 
     Raises:
         ValueError: For invalid arguments
     """
-    __metaclass__ = abc.ABCMeta
 
     def __init__(self, split_point, hash_size, device=None):
         self.hash_size=hash_size
@@ -26,7 +26,8 @@ class Hash(object):
             elif isinstance(device, str):
                 self.device = torch.device(device)
             else:
-                raise ValueError('device value is invalid, expected a string or torch.device instance.')
+                raise ValueError('device value is invalid, expected a string or \
+                torch.device instance.')
 
     @abc.abstractproperty
     def interior_functions(self):
@@ -42,13 +43,11 @@ class Hash(object):
 
     @hash_size.setter
     def hash_size(self, new_size):
-        if isinstance(new_size, int):
-            if new_size > 0 and new_size <=16:
-                self._hash_size = new_size
-            else:
-                raise ValueError(f'Hash size of {new_size} should be between 1 and 16')
+        if isinstance(new_size, int) and new_size > 0 and new_size <=16:
+            self._hash_size = new_size
         else:
-            raise ValueError(f'Expected an integer, instead got {type(new_size)}')
+            raise ValueError(f'Hash size should be an integer between 1 and 16, \
+                instead got {type(new_size)}')
 
     @split_point.setter
     def split_point(self, new_split=None):
@@ -69,7 +68,7 @@ class Hash(object):
         """Returns the config of the Hash instance.
 
         The config is a Python dictionary (serializable)
-        containing the configuration, and can be used to 
+        containing the configuration, and can be used to
         reinstantiate the hash function.
 
         Returns:
@@ -83,8 +82,8 @@ class Hash(object):
         """Creates a Hash instance from its config.
 
         This method is the reverse of `get_config`,
-        capable of instantiating the same optimizer from the config
-        dictionary.
+        capable of instantiating the same hash function
+        from the config dictionary.
 
         Args:
             config: A Python dictionary, typically the output of get_config.
@@ -93,7 +92,7 @@ class Hash(object):
             A Hash instance.
         """
         return cls(**config)
-    
+
     def partial_hash(self, X):
         """Creates a partial hash of X.
 
@@ -120,7 +119,7 @@ class Hash(object):
             A float32 PyTorch tensor containing the full hash
         """
         return self._hash(X, None)
-    
+
     @abc.abstractmethod
     def _hash(self, X, split_point):
         return X
