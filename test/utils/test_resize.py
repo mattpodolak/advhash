@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import torch
 
-test_image = Image.open("../img/cat.jpg").convert("L")
+test_image = Image.open("test/img/cat.jpg").convert("L")
 
 def test_lanczos_resize_cpu():
     test_tensor = torch.tensor(np.array(test_image, "float32"))

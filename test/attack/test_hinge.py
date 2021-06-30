@@ -5,7 +5,7 @@ import torch
 from PIL import Image
 import numpy as np
 
-image = Image.open('../img/cat.jpg')
+image = Image.open('test/img/cat.jpg')
 im_tensor = torch.tensor(np.array(image).astype('float32'))
 
 def test_init_cpu():
@@ -21,7 +21,7 @@ def test_init_partial():
 
 def test_attack_cpu():
     hinge = HingeAttack(hash_fn='dhash', device='cpu')
-    target = torch.tensor(np.array(Image.open('../img/forest.jpg')).astype('float32'))
+    target = torch.tensor(np.array(Image.open('test/img/forest.jpg')).astype('float32'))
     target_hash = hinge.hash.full_hash(target)
     im_hash = hinge.hash.full_hash(im_tensor)
     im_adv = hinge.attack(im_tensor, target, 2)

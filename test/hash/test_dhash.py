@@ -5,7 +5,7 @@ from advhash.hash.dhash import DHash
 from advhash.utils import compare
 import imagehash
 
-image = Image.open('../img/cat.jpg')
+image = Image.open('test/img/cat.jpg')
 im_tensor = torch.tensor(np.array(image).astype('float32'))
 
 def test_init():

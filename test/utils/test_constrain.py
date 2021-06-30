@@ -1,9 +1,10 @@
+import os
 from PIL import Image
 import numpy as np
 import torch
 import advhash.utils.constrain as constrain
 
-test_image = Image.open("../img/cat.jpg")
+test_image = Image.open("test/img/cat.jpg")
 
 def test_box():
     test_tensor = torch.tensor(np.array(test_image, "float32"))

@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import advhash.utils.compare as compare
 
-test_image = Image.open("../img/cat.jpg").convert("L")
+test_image = Image.open("test/img/cat.jpg").convert("L")
 
 def test_avg_diff():
     test_tensor = torch.tensor(np.array(test_image, "float32"))
