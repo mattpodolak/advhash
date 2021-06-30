@@ -7,6 +7,7 @@ jobs:
       - checkout  # checkout source code to working directory
       - run:
           command: |  # create whl and install dependencies
+            sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install coverage pytest imagehash Pillow
             sudo pip install -r requirements.txt
@@ -28,6 +29,7 @@ jobs:
       - checkout  # checkout source code to working directory
       - run:
           command: |  # create whl, install twine and publish to Test PyPI
+            sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install twine
             python -m twine upload --repository testpypi dist/*
@@ -38,6 +40,7 @@ jobs:
       - checkout  # checkout source code to working directory
       - run:
           command: |  # create whl, install twine and publish to PyPI
+            sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install twine
             python -m twine upload dist/*
