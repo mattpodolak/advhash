@@ -6,14 +6,6 @@ import torch
 
 test_image = Image.open("../img/cat.jpg").convert("L")
 
-def test_lanczos_resize_cuda():
-    device = torch.device('cuda')
-    test_tensor = torch.tensor(np.array(test_image, "float32")).to(device)
-    test_resize = resize.lanczos_resize(test_tensor)
-    expected_resize = torch.tensor(np.array(test_image.resize((17, 16), Image.ANTIALIAS))).to(device)
-    avg_diff = compare.avg_diff(expected_resize, test_resize)
-    assert avg_diff < 0.005, f"Avg diff={100*avg_diff:.2f}% not less than 0.5%"
-
 def test_lanczos_resize_cpu():
     test_tensor = torch.tensor(np.array(test_image, "float32"))
     test_resize = resize.lanczos_resize(test_tensor)

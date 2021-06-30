@@ -31,11 +31,10 @@ def test_full_hash():
     assert full_hash.numpy().shape == expected_hash.shape and dist.item() == 1 #TODO: should be 0
 
 def test_init_device():
-    device = torch.device('cuda')
+    device = torch.device('cpu')
     dhash = DHash(split_point="resize", hash_size=8, device=device)
     assert dhash.device == device
 
 def test_init_str():
-    device = torch.device('cpu')
     dhash = DHash(split_point="resize", hash_size=8, device='cpu')
-    assert dhash.device == device
+    assert dhash.device == torch.device('cpu')
