@@ -7,7 +7,7 @@ class L2Attack(Attack):
     Args:
         hash_fn: String or Hash function. Defines what hashing function to
         perform an attack against.
-        hash_size (optional): Integer. Size of hash created by the hashing function 
+        hash_size (optional): Integer. Size of hash created by the hashing function
         - default value is 16.
         split_point (optional): String. Defines what interior function to target as
         part of the attack - default value is None.
@@ -17,10 +17,10 @@ class L2Attack(Attack):
         ValueError: For invalid arguments
 
     Reference:
-        Dolhansky, B., & Canton-Ferrer, C. (2020, November). Adversarial collision attacks 
+        Dolhansky, B., & Canton-Ferrer, C. (2020, November). Adversarial collision attacks
         on image hashing functions. https://arxiv.org/pdf/2011.09473.pdf
 
-    
+
     Example:
         ```
         from advhash.attack.l2 import L2Attack
@@ -37,20 +37,18 @@ class L2Attack(Attack):
         ```
 
     """
-    def __init__(self, hash_fn, **kwargs):
-        super().__init__(hash_fn, **kwargs)
 
-    def _loss_fn(self, X_adv, X_orig, Y_img, c=0.001):
+    def _loss_fn(self, x_adv, x_orig, y_img, c=0.001):
         """
             Loss function used during the creation of the adversarial image
 
             Args:
-                X_adv: PyTorch tensor - adversarial image
-                X_orig: PyTorch tensor - unperturbed image
-                Y_img: PyTorch tensor - target image
+                x_adv: PyTorch tensor - adversarial image
+                x_orig: PyTorch tensor - unperturbed image
+                y_img: PyTorch tensor - target image
                 c (optional): content loss parameter - defaults to 0.001
 
         """
-        X_hash = self.hash.partial_hash(X_adv)
-        Y_hash = self.hash.partial_hash(Y_img)
-        return torch.norm(X_hash-Y_hash, 2) + c*torch.norm(X_adv-X_orig, 2)
+        x_hash = self.hash.partial_hash(x_adv)
+        y_hash = self.hash.partial_hash(y_img)
+        return torch.norm(x_hash-y_hash, 2) + c*torch.norm(x_adv-x_orig, 2)

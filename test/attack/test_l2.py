@@ -14,22 +14,17 @@ def test_init_cpu():
     partial_hash = l2.hash.partial_hash(im_tensor)
     assert partial_hash.numpy().shape == expected_resize.shape
 
-def test_init_cuda():
-    l2 = L2Attack(hash_fn='dhash', split_point='resize', device='cuda')
-    partial_hash = l2.hash.partial_hash(im_tensor)
-    assert partial_hash.cpu().numpy().shape == expected_resize.shape
-
 def test_init_partial():
-    dhash = DHash(split_point='resize', device='cuda')
+    dhash = DHash(split_point='resize', device='cpu')
     l2 = L2Attack(hash_fn=dhash)
     partial_hash = l2.hash.partial_hash(im_tensor)
     assert partial_hash.cpu().numpy().shape == expected_resize.shape    
 
-def test_attack_cuda():
-    l2 = L2Attack(hash_fn='dhash', split_point='resize', device='cuda')
+def test_attack_cpu():
+    l2 = L2Attack(hash_fn='dhash', split_point='resize', device='cpu')
     target = torch.tensor(np.array(Image.open('../img/forest.jpg')).astype('float32'))
-    target_hash = l2.hash.full_hash(target).to('cuda')
-    im_hash = l2.hash.full_hash(im_tensor).to('cuda')
+    target_hash = l2.hash.full_hash(target)
+    im_hash = l2.hash.full_hash(im_tensor)
     im_adv = l2.attack(im_tensor, target, 2)
     
     adv_hash = l2.hash.full_hash(im_adv)

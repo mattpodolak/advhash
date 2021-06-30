@@ -7,12 +7,13 @@ from advhash.utils.resize import lanczos_resize
 class DHash(Hash):
     """Hash function that implements Difference Hash.
 
-    Difference Hash (dHash), uses the horizontal image gradient to binarize the image values 
+    Difference Hash (dHash), uses the horizontal image gradient to binarize the image values
     after resizing and converting to the luma channel. Implementation is based on
     http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html
 
     Args:
-        split_point: String. Defines the interior function to use as a split point when calling the hash function.
+        split_point: String. Defines the interior function to use as a split point when
+        calling the hash function.
         hash_size: Integer between 1 and 16, inclusive. Defines the size of the resulting hash.
 
     Raises:
@@ -30,13 +31,14 @@ class DHash(Hash):
 
     @property
     def interior_functions(self):
-        return OrderedDict({"luma": rgb2luma, "resize": self._resize, "horiz_grad": self._horiz_grad})
-    
+        return OrderedDict({"luma": rgb2luma, "resize": self._resize,
+            "horiz_grad": self._horiz_grad})
+
     def get_config(self):
         """Returns the config of the Hash instance.
 
         The config is a Python dictionary (serializable)
-        containing the configuration, and can be used to 
+        containing the configuration, and can be used to
         reinstantiate the hash function.
 
         Returns:

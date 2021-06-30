@@ -9,7 +9,7 @@ def rgb2luma(x):
         x: PyTorch tensor with shape (:, :, 3)
         device (optional): PyTorch device for the tensor - defaults
         to CPU
-    
+
     Returns:
         PyTorch tensor with shape (:, :, 1)
     """
@@ -18,7 +18,7 @@ def rgb2luma(x):
     add = torch.zeros(x.shape).to(x.device)
     add[:,:,2] = (torch.ones(add[:,:,2].shape) * 32768) / pow(2, 16)
     mod[:,:,0] = torch.mul(mod[:,:,0],19595)
-    mod[:,:,1] = torch.mul(mod[:,:,1],38470) 
+    mod[:,:,1] = torch.mul(mod[:,:,1],38470)
     mod[:,:,2] = torch.mul(mod[:,:,2],7471)
     mod = torch.div(mod, pow(2, 16))
     return torch.sum(torch.add(torch.mul(x, mod),add), dim=-1)

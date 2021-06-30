@@ -1,0 +1,60 @@
+version: 2.1
+jobs:
+  build_test:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout  # checkout source code to working directory
+      - run:
+          command: |  # create whl and install dependencies
+            python setup.py sdist bdist_wheel
+            sudo pip install coverage pytest imagehash PIL
+            pip install .
+      - run:
+          command: |  # Run test suite
+            mkdir test-results
+            coverage run --source=. -m pytest --junitxml=test-results/junit.xml
+            coverage report
+            coverage html
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: htmlcov
+  test_pypi_publish:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout  # checkout source code to working directory
+      - run:
+          command: |  # create whl, install twine and publish to Test PyPI
+            python setup.py sdist bdist_wheel
+            sudo pip install twine
+            python -m twine upload --repository testpypi dist/*
+  pypi_publish:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout  # checkout source code to working directory
+      - run:
+          command: |  # create whl, install twine and publish to PyPI
+            python setup.py sdist bdist_wheel
+            sudo pip install twine
+            python -m twine upload dist/*
+workflows:
+  build_test_publish:
+    jobs:
+      - build_test
+      - test_pypi_publish:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - develop
+      - pypi_publish:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - main
