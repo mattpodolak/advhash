@@ -9,11 +9,13 @@ def test_serialize_object():
     errors = []
 
     for key in config.keys():
-        if(serialized['config'][key] != config[key]):
-            errors.append(f'Expected {key} to be serialized as {config[key]}, instead got {serialized["config"][key]}')
-    
+        if serialized['config'][key] != config[key]:
+            errors.append(f'Expected {key} to be serialized as {config[key]}, \
+            instead got {serialized["config"][key]}')
+
     if serialized['class_name'] != 'DHash':
-        errors.append(f'Expected class_name to be serialized as DHash, instead got {serialized["class_name"]}')
+        errors.append(f'Expected class_name to be serialized as DHash, \
+            instead got {serialized["class_name"]}')
 
     assert not errors, "errors occured:\n{}".format("\n".join(errors))
 
@@ -31,11 +33,13 @@ def test_deserialize_object():
     errors = []
 
     for key in hash_config.keys():
-        if(getattr(deserialized, key) != hash_config[key]):
-            errors.append(f'Expected {key} to be serialized as {hash_config[key]}, instead got {getattr(deserialized, key)}')
-    
+        if getattr(deserialized, key) != hash_config[key]:
+            errors.append(f'Expected {key} to be serialized as {hash_config[key]}, \
+                instead got {getattr(deserialized, key)}')
+
     if type(deserialized) != DHash:
-        errors.append(f'Expected class_name to be deserialized as DHash, instead got {type(deserialized)}')
+        errors.append(f'Expected class_name to be deserialized as DHash, \
+            instead got {type(deserialized)}')
 
     assert not errors, "errors occured:\n{}".format("\n".join(errors))
 
@@ -49,8 +53,9 @@ def test_deserialize_object_str():
       module_type='Hash')
 
     errors = []
-    
+
     if type(deserialized) != DHash:
-        errors.append(f'Expected class_name to be deserialized as DHash, instead got {type(deserialized)}')
+        errors.append(f'Expected class_name to be deserialized as DHash, \
+            instead got {type(deserialized)}')
 
     assert not errors, "errors occured:\n{}".format("\n".join(errors))

@@ -1,6 +1,6 @@
 def deserialize_object(identifier, module_objects=None, module_type=None):
     """Turns the serialized form of a AdvHash object back into an actual object.
-    
+
     This function is for mid-level library implementers rather than end users.
     Importantly, this utility requires you to provide the dict of `module_objects`
     to use for looking up the object config; this is not populated by default.
@@ -9,7 +9,7 @@ def deserialize_object(identifier, module_objects=None, module_type=None):
     identifier: the serialized form of the object.
     module_objects: A dictionary of built-in objects to look the name up in.
         Generally, `module_objects` is provided by midlevel library implementers.
-    module_type: A string of the class name for the module_objects, used for 
+    module_type: A string of the class name for the module_objects, used for
         logging purposes.
 
     Returns:
@@ -23,7 +23,7 @@ def deserialize_object(identifier, module_objects=None, module_type=None):
         class_name = config['class_name']
         cls_config = config['config']
         cls = module_objects.get(class_name, None)
-        
+
         if cls is None:
             raise ValueError(
                 'Unknown {}: {}. Please ensure this object exists.'
@@ -69,7 +69,7 @@ def serialize_object(instance):
                 base_config['config'][key] = item
             else:
                 try:
-                   base_config['config'][key] = serialize_object(item)
+                    base_config['config'][key] = serialize_object(item)
                 except ValueError:
                     base_config['config'][key] = item
         return base_config
