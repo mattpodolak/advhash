@@ -11,8 +11,6 @@ jobs:
             sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
             sudo pip install coverage pytest imagehash Pillow
-            sudo pip install -r requirements.txt
-            sudo pip install .
       - run:
           name: run tests
           command: |
