@@ -9,7 +9,7 @@ jobs:
           command: |  # create whl and install dependencies
             python setup.py sdist bdist_wheel
             sudo pip install coverage pytest imagehash Pillow
-            pip install .
+            sudo pip install .
       - run:
           command: |  # Run test suite
             mkdir test-results
