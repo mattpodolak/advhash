@@ -54,7 +54,7 @@ def test_deserialize_object_str():
 
     errors = []
 
-    if isinstance(deserialized, DHash):
+    if type(deserialized) != DHash:
         errors.append(f'Expected class_name to be deserialized as DHash, \
             instead got {type(deserialized)}')
 
