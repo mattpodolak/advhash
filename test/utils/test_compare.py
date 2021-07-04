@@ -6,7 +6,7 @@ import advhash.utils.compare as compare
 test_image = Image.open("test/img/cat.jpg").convert("L")
 
 def test_avg_diff():
-    test_tensor = torch.tensor(np.array(test_image, "float32"))
+    test_tensor = torch.tensor(np.array(test_image).astype("float32"))
     mod_tensor = test_tensor*0.9
     avg_diff = compare.avg_diff(test_tensor, mod_tensor)
     assert round(avg_diff.item(), 7) == 0.1, f"Expected a difference of 0.1000000, \
