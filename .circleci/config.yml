@@ -41,9 +41,9 @@ jobs:
       - run:
           name: build and publish to Test PyPi
           command: |
-            sudo pip install --upgrade pip
+            sudo pip install --upgrade pip twine wheel setuptools
             python setup.py sdist bdist_wheel
-            sudo pip install twine==3.4.1
+            sudo pip install twine
             python -m twine upload --repository testpypi dist/*
   pypi_publish:
     docker:
@@ -59,7 +59,7 @@ jobs:
       - run:
           name: build and publish to PyPi
           command: |
-            sudo pip install --upgrade pip
+            sudo pip install --upgrade pip twine wheel setuptools
             python setup.py sdist bdist_wheel
             sudo pip install twine
             python -m twine upload dist/*
