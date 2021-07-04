@@ -1,5 +1,12 @@
 <h2 align="center">AdvHash: Adversarial collision attacks on perceptual hashing functions</h2>
 
+[![CircleCI](https://circleci.com/gh/mattpodolak/advhash.svg?style=shield)](https://circleci.com/gh/mattpodolak/advhash)
+[![codecov.io](https://codecov.io/github/mattpodolak/advhash/coverage.svg?branch=main)](https://codecov.io/github/mattpodolak/advhash)
+[![PyPI Version](https://img.shields.io/pypi/v/advhash?color=blue)](https://pypi.org/project/advhash/)
+[![Python Version](https://img.shields.io/pypi/pyversions/advhash?color=blue)](https://www.python.org/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+
 ## Summary
 
 AdvHash is a Python package that provides a simple to use interface for performing adversarial collision attacks on perceptual hashing functions. 
@@ -11,6 +18,7 @@ PyTorch is used to re-create the target hashing functions and generating adversa
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Example Usage](#example-usage)
+- [Attacks](#attacks)
 - [Future Development](#future-development)
   - [Hashing Functions](#hashing-functions)
   - [Attack Methods](#attack-methods)
@@ -61,6 +69,16 @@ l2 = L2Attack(hash_fn='dhash', split_point='resize')
 
 im_adv = l2.attack(target, source)
 ```
+
+## Attacks
+### Collision Attacks for Image Hashing
+* `advhash.attack.l2.L2Attack`
+* `advhash.attack.hinge.HingeAttack`
+
+The above attacks accept a source image, target image, and hashing function as an input. The source image will be perturbed to create an adversarial image that has the same hash as the target image when hashed by the selected hashing function. Some attacks require additional configuration.
+
+### Hashing Functions
+* [dHash](https://pypi.org/project/ImageHash/)
 
 ## Future Development
 
