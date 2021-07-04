@@ -41,7 +41,8 @@ jobs:
       - run:
           name: build and publish to Test PyPi
           command: |
-            sudo pip install --upgrade pip twine wheel setuptools
+            sudo pip install --upgrade pip
+            sudo pip install --upgrade wheel setuptools
             python setup.py sdist bdist_wheel
             sudo pip install twine
             python -m twine upload --repository testpypi dist/*
@@ -59,7 +60,8 @@ jobs:
       - run:
           name: build and publish to PyPi
           command: |
-            sudo pip install --upgrade pip twine wheel setuptools
+            sudo pip install --upgrade pip
+            sudo pip install --upgrade wheel setuptools
             python setup.py sdist bdist_wheel
             sudo pip install twine
             python -m twine upload dist/*
