@@ -43,7 +43,7 @@ jobs:
           command: |
             sudo pip install --upgrade pip
             python setup.py sdist bdist_wheel
-            sudo pip install twine
+            sudo pip install twine==3.4.1
             python -m twine upload --repository testpypi dist/*
   pypi_publish:
     docker:
