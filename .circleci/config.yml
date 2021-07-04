@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build_test:
     docker:
@@ -19,6 +21,8 @@ jobs:
             coverage run --source=. -m pytest --junitxml=test-results/junit.xml
             coverage report
             coverage html
+      - codecov/upload:
+          file: htmlcov
       - store_test_results:
           path: test-results
       - store_artifacts:
