@@ -11,14 +11,16 @@ class Attack:
     Args:
         hash_fn: String or Hash function. Defines what hashing function to
         perform an attack against.
-        kwargs: configuration for hash function
+        other_args (optional): additional keyword arguments to accept
 
     Raises:
         ValueError: For invalid arguments
     """
 
-    def __init__(self, hash_fn, **kwargs):
-        allowed_args = ("hash_size", "split_point", "device")
+    def __init__(self, hash_fn, other_args=None, **kwargs):
+        allowed_args = {"hash_size", "split_point", "device"}
+        if isinstance(other_args, set):
+            allowed_args.update(other_args)
         for kw in kwargs:
             if kw not in allowed_args:
                 raise ValueError(f"Invalid argument {kw}")
