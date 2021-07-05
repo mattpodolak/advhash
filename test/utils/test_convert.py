@@ -4,17 +4,17 @@ from PIL import Image
 import numpy as np
 import torch
 
-test_image = Image.open("../img/cat.jpg")
+test_image = Image.open("test/img/cat.jpg")
 
 def test_rgb2luma_cpu():
-    test_tensor = torch.tensor(np.array(test_image, "float32"))
+    test_tensor = torch.tensor(np.array(test_image).astype("float32"))
     test_resize = convert.rgb2luma(test_tensor)
     expected_resize = torch.tensor(np.array(test_image.convert("L")))
     avg_diff = compare.avg_diff(expected_resize, test_resize)
     assert avg_diff < 0.005, f"Avg diff={100*avg_diff:.2f}% not less than 0.5%"
 
 def test_tensor2image():
-    test_tensor = torch.tensor(np.array(test_image, "float32"))
+    test_tensor = torch.tensor(np.array(test_image).astype("float32"))
     image = convert.tensor2image(test_tensor)
     assert (np.array(image) == test_tensor.numpy()).all()
 

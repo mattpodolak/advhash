@@ -5,3 +5,5 @@ advhash.egg-info
 .coverage
 htmlcov
 .vscode
+build
+dist

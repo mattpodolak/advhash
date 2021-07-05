@@ -4,10 +4,10 @@ from PIL import Image
 import numpy as np
 import torch
 
-test_image = Image.open("../img/cat.jpg").convert("L")
+test_image = Image.open("test/img/cat.jpg").convert("L")
 
 def test_lanczos_resize_cpu():
-    test_tensor = torch.tensor(np.array(test_image, "float32"))
+    test_tensor = torch.tensor(np.array(test_image).astype("float32"))
     test_resize = resize.lanczos_resize(test_tensor)
     expected_resize = torch.tensor(np.array(test_image.resize((17, 16), Image.ANTIALIAS)))
     avg_diff = compare.avg_diff(expected_resize, test_resize)

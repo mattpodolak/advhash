@@ -7,10 +7,11 @@ class L2Attack(Attack):
     Args:
         hash_fn: String or Hash function. Defines what hashing function to
         perform an attack against.
+        split_point (optional): String. Defines what interior function to target as
+        part of the attack - required if hash_fn is a string.
         hash_size (optional): Integer. Size of hash created by the hashing function
         - default value is 16.
-        split_point (optional): String. Defines what interior function to target as
-        part of the attack - default value is None.
+
         device (optional): String. Defines the device to store PyTorch tensors on.
 
     Raises:
@@ -37,6 +38,13 @@ class L2Attack(Attack):
         ```
 
     """
+
+    def __init__(self, hash_fn, split_point=None, **kwargs):
+        if isinstance(hash_fn, str) and split_point is None:
+            raise ValueError("split_point is required when specifying hash_fn by name")
+        elif split_point is not None:
+            kwargs["split_point"] = split_point
+        super().__init__(hash_fn, **kwargs)
 
     def _loss_fn(self, x_adv, x_orig, y_img, c=0.001):
         """

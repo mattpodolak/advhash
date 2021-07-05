@@ -1,5 +1,14 @@
 import re
+from pip._vendor.requests.sessions import session
 import setuptools
+from pip._internal.req import parse_requirements
+
+install_reqs = list(parse_requirements('requirements.txt', session='false'))
+
+try:
+    reqs = [str(ir.req) for ir in install_reqs]
+except:
+    reqs = [str(ir.requirement) for ir in install_reqs]
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -25,7 +34,7 @@ setuptools.setup(
     url="https://github.com/mattpodolak/advhash",
     packages=setuptools.find_packages(),
     license='GNU GPLv3',
-    install_requires=['requests'],
+    install_requires=reqs,
     keywords='adversarial attacks image hashing',
     classifiers=[
         "Development Status :: 3 - Alpha",

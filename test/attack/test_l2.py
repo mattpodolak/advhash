@@ -5,7 +5,7 @@ import torch
 from PIL import Image
 import numpy as np
 
-image = Image.open('../img/cat.jpg')
+image = Image.open('test/img/cat.jpg')
 im_tensor = torch.tensor(np.array(image).astype('float32'))
 expected_resize = np.array(image.convert("L").resize((17, 16), Image.LANCZOS)).astype('float32')
 
@@ -22,7 +22,7 @@ def test_init_partial():
 
 def test_attack_cpu():
     l2 = L2Attack(hash_fn='dhash', split_point='resize', device='cpu')
-    target = torch.tensor(np.array(Image.open('../img/forest.jpg')).astype('float32'))
+    target = torch.tensor(np.array(Image.open('test/img/forest.jpg')).astype('float32'))
     target_hash = l2.hash.full_hash(target)
     im_hash = l2.hash.full_hash(im_tensor)
     im_adv = l2.attack(im_tensor, target, 2)
