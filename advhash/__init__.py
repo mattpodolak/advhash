@@ -5,6 +5,6 @@
 """
 Adversarial Attacks for Perceptual Hashing Functions
 """
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __author__ = 'Matthew Podolak'
 __license__ = 'GNU GPLv3'
