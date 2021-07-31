@@ -19,10 +19,10 @@ jobs:
           command: |
             mkdir test-results
             coverage run --source=. -m pytest --junitxml=test-results/junit.xml
-            coverage report
             coverage html
+            coverage xml
       - codecov/upload:
-          file: htmlcov
+          file: coverage.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
