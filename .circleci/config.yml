@@ -19,13 +19,14 @@ jobs:
           command: |
             mkdir test-results
             coverage run --source=. -m pytest --junitxml=test-results/junit.xml
+            coverage html
             coverage xml
       - codecov/upload:
           file: coverage.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
-          path: coverage.xml
+          path: htmlcov
   test_pypi_publish:
     docker:
       - image: circleci/python:3.6.4
